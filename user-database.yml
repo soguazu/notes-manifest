@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-management-db-deploy
+spec:
+  selector:
+    matchLabels:
+      app: user-management-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: user-management-db
+    spec:
+      containers:
+        - name: user-management-db-container
+          image: postgres:15.2
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: user-database-secret
+                  key: postgres-password
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: user-database-secret
+                  key: postgres-user
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: user-database-secret
+                  key: postgres-db
+
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 5432
+              name: postgres
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/db
+              # - mountPath: /var/lib/mysql
+              name: postgres-persist-storage
+            - name: usermanagement-dbcreation-script
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: postgres-persist-storage
+          persistentVolumeClaim:
+            claimName: noteopx-pvc
+        - name: usermanagement-dbcreation-script
+          configMap:
+            name: user-management-cfm
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-management-db-svc
+spec:
+  selector:
+    app: user-management-db
+  ports:
+    - port: 5432
+  clusterIP: None

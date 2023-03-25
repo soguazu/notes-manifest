@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-management-cfm
+data:
+  init-db.sql: |-
+    DROP USER IF EXISTS noteopx;
+    CREATE USER noteopx WITH PASSWORD 'lYUUXCa1cZKPR5yVcG9M';
+    DROP DATABASE IF EXISTS noteopx;
+    CREATE DATABASE noteopx;
+    GRANT ALL PRIVILEGES ON DATABASE noteopx TO noteopx;
