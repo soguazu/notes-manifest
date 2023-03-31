@@ -6,7 +6,7 @@ metadata:
     app: api-gateway-deploy
     teir: backend
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: api-gateway
@@ -19,13 +19,31 @@ spec:
     spec:
       containers:
         - name: api-gateway-container
-          image: cocoon/api-gateway
+          image: noteopx/api-gateway
+          imagePullPolicy: Always
           ports:
             - containerPort: 30000
-          resources:
-            limits:
-              memory: "128Mi"
-              cpu: "200m"
+          env:
+            - name: JWT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: jwt_token
+            - name: GATEWAY_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: api_gateway_port
+            - name: ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: encryption_key
+            - name: USER_SERVICE
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: user_service_url
 
 ---
 apiVersion: v1

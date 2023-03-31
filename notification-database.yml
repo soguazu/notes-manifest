@@ -1,36 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-management-db-deploy
+  name: notification-db-deploy
 spec:
   selector:
     matchLabels:
-      app: user-management-db
+      app: notification-db
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: user-management-db
+        app: notification-db
     spec:
       containers:
-        - name: user-management-db-container
+        - name: notification-db-container
           image: postgres:15.2
           env:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: user-database-secret
+                  name: notification-database-secret
                   key: postgres-password
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: user-database-secret
+                  name: notification-database-secret
                   key: postgres-user
             - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
-                  name: user-database-secret
+                  name: notification-database-secret
                   key: postgres-db
 
           resources:
@@ -41,27 +41,27 @@ spec:
             - containerPort: 5432
               name: postgres
           volumeMounts:
-            - mountPath: /var/lib/postgresql/db
-              # - mountPath: /var/lib/mysql
+            - mountPath: /var/lib/postgresql/notification
               name: postgres-persist-storage
-            - name: usermanagement-dbcreation-script
+            - name: notification-dbcreation-script
               mountPath: /docker-entrypoint-initdb.d
       volumes:
         - name: postgres-persist-storage
           persistentVolumeClaim:
             claimName: noteopx-pvc
-        - name: usermanagement-dbcreation-script
+        - name: notification-dbcreation-script
           configMap:
-            name: user-management-cfm
+            name: notification-cfm
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-management-db-svc
+  name: notification-db-svc
 spec:
+  type: LoadBalancer
   selector:
-    app: user-management-db
+    app: notification-db
   ports:
     - protocol: TCP
       port: 5432

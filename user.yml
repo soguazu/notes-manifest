@@ -37,31 +37,26 @@ spec:
                 secretKeyRef:
                   name: user-management-secret
                   key: user_node_env
-            - name: DEV_HOST
+            - name: PROD_HOST
               valueFrom:
                 secretKeyRef:
                   name: user-management-secret
                   key: user_database_host
-            - name: DEV_DB
+            - name: PROD_DB
               valueFrom:
                 secretKeyRef:
                   name: user-management-secret
                   key: user_database_name
-            - name: DEV_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: user-management-secret
-                  key: user_database_port
-            - name: DEV_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: user-management-secret
-                  key: user_database_password
-            - name: DEV_USER
+            - name: PROD_USER
               valueFrom:
                 secretKeyRef:
                   name: user-management-secret
                   key: user_database_username
+            - name: PROD_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: user_database_password
             - name: PORT
               valueFrom:
                 secretKeyRef:
@@ -86,7 +81,7 @@ metadata:
   labels:
     app: user-management-svc
 spec:
-  type: ClusterIP
+  # type: LoadBalancer
   selector:
     app: user-management
   ports:
