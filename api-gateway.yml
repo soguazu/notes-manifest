@@ -53,7 +53,7 @@ metadata:
   labels:
     app: api-gateway-svc
 spec:
-  type: LoadBalancer
+  # type: LoadBalancer
   selector:
     app: api-gateway
   ports:

@@ -31,10 +31,9 @@ metadata:
   labels:
     app: web-svc
 spec:
-  type: LoadBalancer
   selector:
     app: web
   ports:
     - name: http
-      port: 30003
+      port: 80
       targetPort: 3000
