@@ -59,7 +59,7 @@ kind: Service
 metadata:
   name: notification-db-svc
 spec:
-  type: LoadBalancer
+  # type: LoadBalancer
   selector:
     app: notification-db
   ports:
