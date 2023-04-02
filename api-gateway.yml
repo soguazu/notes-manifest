@@ -44,6 +44,21 @@ spec:
                 secretKeyRef:
                   name: user-management-secret
                   key: user_service_url
+            - name: NOTIFICATION_SERVICE
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: notification_service_url
+            - name: RABBITMQ_SERVICE
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: rabbitmq_service_url
+            - name: CLIENT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: client_url
 
 ---
 apiVersion: v1

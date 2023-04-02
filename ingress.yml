@@ -26,3 +26,13 @@ spec:
                 name: api-gateway-svc
                 port:
                   number: 30000
+    - host: mq.dev.noteopx.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: my-rabbitmq
+                port:
+                  number: 15672

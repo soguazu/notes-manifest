@@ -42,13 +42,13 @@ spec:
               name: postgres
           volumeMounts:
             - mountPath: /var/lib/postgresql/notification
-              name: postgres-persist-storage
+              name: notification-persist-storage
             - name: notification-dbcreation-script
               mountPath: /docker-entrypoint-initdb.d
       volumes:
-        - name: postgres-persist-storage
+        - name: notification-persist-storage
           persistentVolumeClaim:
-            claimName: noteopx-pvc
+            claimName: noteopx-notification-pvc
         - name: notification-dbcreation-script
           configMap:
             name: notification-cfm
