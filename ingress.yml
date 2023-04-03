@@ -4,6 +4,7 @@ metadata:
   name: noteopx-ingress-service
   annotations:
     kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
   rules:
     - host: web.dev.noteopx.com
@@ -36,3 +37,13 @@ spec:
                 name: my-rabbitmq
                 port:
                   number: 15672
+  tls:
+    - hosts:
+        - web.dev.noteopx.com
+      secretName: web-dev-noteopx-secret
+    - hosts:
+        - api.dev.noteopx.com
+      secretName: api-dev-noteopx-secret
+    - hosts:
+        - mq.dev.noteopx.com
+      secretName: mq-dev-noteopx-secret

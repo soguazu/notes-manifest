@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test
+  labels:
+    app: test
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      name: test-pod
+      labels:
+        app: test
+        tier: backend
+    spec:
+      containers:
+        - name: test-container
+          image: noteopx/test:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 30004
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: test-svc
+  labels:
+    app: test-svc
+spec:
+  # type: LoadBalancer
+  selector:
+    app: test
+  ports:
+    - name: http
+      port: 30004
+      targetPort: 30004
