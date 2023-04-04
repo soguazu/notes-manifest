@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: test-container
-          image: noteopx/test:1.0.0
+          image: noteopx/test:${IMAGE_TAG}
           imagePullPolicy: Always
           ports:
             - containerPort: 30004
