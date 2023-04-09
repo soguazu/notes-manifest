@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: notification-container
-          image: noteopx/notification:latest
+          image: noteopx/notification:12
           imagePullPolicy: Always
           ports:
             - containerPort: 30002
