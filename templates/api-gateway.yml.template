@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway-deploy
+  labels:
+    app: api-gateway-deploy
+    teir: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      name: api-gateway-pod
+      labels:
+        app: api-gateway
+        tier: backend
+    spec:
+      containers:
+        - name: api-gateway-container
+          image: noteopx/api-gateway:${IMAGE_TAG}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 30000
+          env:
+            - name: JWT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: jwt_token
+            - name: GATEWAY_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: api_gateway_port
+            - name: ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: encryption_key
+            - name: USER_SERVICE
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: user_service_url
+            - name: NOTIFICATION_SERVICE
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: notification_service_url
+            - name: RABBITMQ_SERVICE
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: rabbitmq_service_url
+            - name: CLIENT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: client_url
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway-svc
+  labels:
+    app: api-gateway-svc
+spec:
+  # type: LoadBalancer
+  selector:
+    app: api-gateway
+  ports:
+    - name: http
+      port: 30000
+      targetPort: 30000

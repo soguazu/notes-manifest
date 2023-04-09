@@ -1,0 +1,116 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notication-deploy
+  labels:
+    app: notification-deploy
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: notification
+  template:
+    metadata:
+      name: notification-pod
+      labels:
+        app: notification
+        tier: backend
+    spec:
+      containers:
+        - name: notification-container
+          image: noteopx/notification:${IMAGE_TAG}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 30002
+          env:
+            - name: NODE_ENV
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: notification_node_env
+            - name: PROD_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: notification_database_host
+            - name: PROD_DB
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: notification_database_name
+            - name: PROD_USER
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: notification_database_username
+            - name: PROD_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: notification_database_password
+            - name: PROD_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: notification_database_port
+            - name: PORT
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: notification_service_port
+            - name: ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: encryption_key
+            - name: JWT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: jwt_token
+            - name: SENDGRID_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: sendgrid_api_key
+            - name: FIREBASE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: firebase_api_key
+            - name: rabbitmqurl
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: rabbitmq_service_url
+            - name: MESSAGE_SENDER_ID
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: message_sender_id
+            - name: APP_ID
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: app_id
+            - name: MEASUREMENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: measurement_id
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-svc
+  labels:
+    app: notification-svc
+spec:
+  # type: LoadBalancer
+  selector:
+    app: notification
+  ports:
+    - name: http
+      port: 30002
+      targetPort: 30002

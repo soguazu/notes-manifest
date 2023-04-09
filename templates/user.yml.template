@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-management-deploy
+  labels:
+    app: user-management-deploy
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: user-management
+  template:
+    metadata:
+      name: user-management-pod
+      labels:
+        app: user-management
+        tier: backend
+    spec:
+      containers:
+        - name: user-management-container
+          image: noteopx/user-magt:${IMAGE_TAG}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 30001
+          env:
+            - name: NODE_ENV
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: user_node_env
+            - name: PROD_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: user_database_host
+            - name: PROD_DB
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: user_database_name
+            - name: PROD_USER
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: user_database_username
+            - name: PROD_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: user_database_password
+            - name: PORT
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: user_service_port
+            - name: ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: encryption_key
+            - name: JWT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: jwt_token
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-management-svc
+  labels:
+    app: user-management-svc
+spec:
+  # type: LoadBalancer
+  selector:
+    app: user-management
+  ports:
+    - name: http
+      port: 30001
+      targetPort: 30001
