@@ -4,8 +4,4 @@ metadata:
   name: notification-cfm
 data:
   init-db.sql: |-
-    DROP USER IF EXISTS dqqxeckp;
-    CREATE USER dqqxeckp WITH PASSWORD 'EWBw62YLUffUwDA1GRrNIPOcdzjoGdqv';
-    DROP DATABASE IF EXISTS dqqxeckp;
-    CREATE DATABASE dqqxeckp;
     GRANT ALL PRIVILEGES ON DATABASE dqqxeckp TO dqqxeckp;

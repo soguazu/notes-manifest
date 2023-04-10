@@ -60,7 +60,7 @@ kind: Service
 metadata:
   name: user-management-db-svc
 spec:
-  # type: LoadBalancer
+  type: LoadBalancer
   selector:
     app: user-management-db
   ports:

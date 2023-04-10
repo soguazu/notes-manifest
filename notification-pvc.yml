@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: noteopx-notification-pvc
 spec:
-  storageClassName: noteopx-sc
+  storageClassName: noteopx-notification-sc
   resources:
     requests:
       storage: 1Gi
