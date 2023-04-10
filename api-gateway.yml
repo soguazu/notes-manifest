@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: api-gateway-container
-          image: noteopx/api-gateway:24
+          image: noteopx/api-gateway:25
           imagePullPolicy: Always
           ports:
             - containerPort: 30000
