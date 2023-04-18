@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: api-gateway-container
-          image: noteopx/api-gateway:24
+          image: noteopx/api-gateway:25
           imagePullPolicy: Always
           ports:
             - containerPort: 30000
@@ -59,21 +59,6 @@ spec:
                 secretKeyRef:
                   name: user-management-secret
                   key: client_url
-            - name: AZURE_STORAGE_ACCOUNT
-              valueFrom:
-                secretKeyRef:
-                  name: user-management-secret
-                  key: azure_storage_account
-            - name: AZURE_STORAGE_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: user-management-secret
-                  key: azure_storage_key
-            - name: AZURE_STORAGE_CONTAINER
-              valueFrom:
-                secretKeyRef:
-                  name: user-management-secret
-                  key: azure_storage_container
 
 ---
 apiVersion: v1
