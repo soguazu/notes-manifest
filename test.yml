@@ -16,25 +16,30 @@ spec:
         app: test
         tier: backend
     spec:
+      initContainers:
+        - name: clone-repo
+          image: alpine/git
+          env:
+            - name: GIT_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: github-secret
+                  key: token
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              clone
+              https://github.com/my-org/my-repo.git
+              /app
       containers:
         - name: test-container
           image: noteopx/test:15
           imagePullPolicy: Always
           ports:
             - containerPort: 30004
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: test-svc
-  labels:
-    app: test-svc
-spec:
-  # type: LoadBalancer
-  selector:
-    app: test
-  ports:
-    - name: http
-      port: 30004
-      targetPort: 30004
+          volumeMounts:
+            - name: app-volume
+              mountPath: /app
+      volumes:
+        - name: app-volume
+          emptyDir: {}
