@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: user-management-container
-          image: noteopx/user-magt:34
+          image: noteopx/user-magt:35
           imagePullPolicy: Always
           ports:
             - containerPort: 30001
