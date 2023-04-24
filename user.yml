@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: user-management-container
-          image: noteopx/user-magt:33
+          image: noteopx/user-magt:34
           imagePullPolicy: Always
           ports:
             - containerPort: 30001
@@ -66,11 +66,6 @@ spec:
                 secretKeyRef:
                   name: user-management-secret
                   key: jwt_token
-            - name: PROTO_PATH
-              valueFrom:
-                secretKeyRef:
-                  name: user-management-secret
-                  key: proto_path
         - name: init-sync-ctr
           image: k8s.gcr.io/git-sync/git-sync:v3.5.0
           volumeMounts:
