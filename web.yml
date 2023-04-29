@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: web-container
-          image: noteopx/web:87
+          image: noteopx/web:88
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
