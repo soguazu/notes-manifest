@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: notification-container
-          image: noteopx/notification:17
+          image: noteopx/notification:18
           imagePullPolicy: Always
           ports:
             - containerPort: 30002
@@ -101,11 +101,6 @@ spec:
                 secretKeyRef:
                   name: user-management-secret
                   key: measurement_id
-            - name: PROTO_PATH
-              valueFrom:
-                secretKeyRef:
-                  name: user-management-secret
-                  key: proto_path
         - name: init-sync-ctr
           image: k8s.gcr.io/git-sync/git-sync:v3.5.0
           volumeMounts:
