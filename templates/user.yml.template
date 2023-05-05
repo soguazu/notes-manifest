@@ -66,6 +66,11 @@ spec:
                 secretKeyRef:
                   name: user-management-secret
                   key: jwt_token
+            - name: PROTO_PATH
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: proto_path
         - name: init-sync-ctr
           image: k8s.gcr.io/git-sync/git-sync:v3.5.0
           volumeMounts:
