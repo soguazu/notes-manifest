@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: subscription-management-container
-          image: noteopx/subscription-magt:2
+          image: noteopx/subscription-magt:3
           imagePullPolicy: Always
           ports:
             - containerPort: 30004
