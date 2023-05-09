@@ -36,6 +36,26 @@ spec:
                 secretKeyRef:
                   name: user-management-secret
                   key: proto_path
+            - name: PAYSTACK_BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: paystack_base_url
+            - name: PAYSTACK_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: paystack_secret_key
+            - name: CALLBACK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: callback_url
+            - name: LICENCE_KEY_LEN
+              valueFrom:
+                secretKeyRef:
+                  name: user-management-secret
+                  key: licence_key_len
             - name: PORT
               valueFrom:
                 secretKeyRef:
