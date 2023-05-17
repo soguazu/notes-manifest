@@ -17,6 +17,16 @@ spec:
                 name: web-svc
                 port:
                   number: 80
+    - host: noteopx.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: web-svc
+                port:
+                  number: 80
     - host: api.dev.noteopx.com
       http:
         paths:
@@ -41,6 +51,9 @@ spec:
     - hosts:
         - web.dev.noteopx.com
       secretName: web-dev-noteopx-secret
+    - hosts:
+        - noteopx.com
+      secretName: noteopx-secret
     - hosts:
         - api.dev.noteopx.com
       secretName: api-dev-noteopx-secret
